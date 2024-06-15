@@ -1,0 +1,12 @@
+package entities;
+
+public class Usuario {
+
+	private int id;
+	private int nome;
+	private int email;
+	private int dataNascimento;
+	private int genero;
+	private int foto;
+	private int ;
+}

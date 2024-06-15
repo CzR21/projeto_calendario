@@ -1,0 +1,15 @@
+package entities;
+
+import enums.TipoStatus;
+
+public class Compromisso {
+
+	private int id;
+	private String titulo;
+	private String descricao;
+	private String dataIncio;
+	private String dataFim;
+	private String local;
+	private String dataNotificacao;
+	private TipoStatus status;
+}

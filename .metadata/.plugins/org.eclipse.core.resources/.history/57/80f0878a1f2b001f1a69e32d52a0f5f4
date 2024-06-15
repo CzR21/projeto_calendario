@@ -1,0 +1,3 @@
+db.url=jdbc:postgresql://my-database.cjugs2akwlzh.us-east-1.rds.amazonaws.com:5432/projeto_calendario
+db.username=postgres
+db.password=MyRDS2112
