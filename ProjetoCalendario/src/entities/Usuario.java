@@ -1,19 +1,30 @@
 package entities;
 
+import java.time.LocalDate;
 import enums.TipoStatus;
 
 public class Usuario {
 
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", dataNascimento=" + dataNascimento
+				+ ", genero=" + genero + ", foto=" + foto + ", nomeUsuario=" + nomeUsuario + ", senha=" + senha
+				+ ", status=" + status + "]";
+	}
+
 	private int id;
 	private String nome;
 	private String email;
-	private String dataNascimento;
+	private LocalDate dataNascimento;
 	private String genero;
 	private String foto;
+	private String nomeUsuario;
 	private String senha;
 	private TipoStatus status;
 	
-	public Usuario() { }
+	public Usuario() {
+		this.status = TipoStatus.ATIVO;
+	}
 	
 	public int getId() {
 		return id;
@@ -39,11 +50,11 @@ public class Usuario {
 		this.email = email;
 	}
 	
-	public String getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 	
-	public void setDataNascimento(String dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	
@@ -67,8 +78,16 @@ public class Usuario {
 		return senha;
 	}
 	
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
+	
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
 	}
 	
 	public TipoStatus getStatus() {

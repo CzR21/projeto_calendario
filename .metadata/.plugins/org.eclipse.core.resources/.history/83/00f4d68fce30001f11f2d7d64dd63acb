@@ -1,0 +1,11 @@
+package dao;
+
+public class UsuarioDAO {
+
+	private Connection conn;
+
+    public UsuarioDAO(Connection conn) {
+        this.conn = conn;
+    }
+	
+}

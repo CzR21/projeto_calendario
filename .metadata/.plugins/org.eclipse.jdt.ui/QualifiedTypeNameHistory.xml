@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.Properties"/>
+    <fullyQualifiedTypeName name="gui.CadastroWindow"/>
+    <fullyQualifiedTypeName name="enums.TipoStatusConvite"/>
+    <fullyQualifiedTypeName name="enums.TipoStatus"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="dao.BancoDados"/>
+    <fullyQualifiedTypeName name="dao.UsuarioDAO"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="entities.Usuario"/>
+    <fullyQualifiedTypeName name="javax.swing.text.MaskFormatter"/>
+    <fullyQualifiedTypeName name="java.text.ParseException"/>
+    <fullyQualifiedTypeName name="javax.swing.JFormattedTextField"/>
+</qualifiedTypeNameHistroy>

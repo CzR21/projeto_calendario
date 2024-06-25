@@ -1,0 +1,162 @@
+package gui;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class CadastroWindow extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField nomeTextField;
+	private JTextField emailTextField;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JButton btnNewButton;
+	private JButton btnVoltar;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CadastroWindow frame = new CadastroWindow();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public CadastroWindow() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 620);
+		setTitle("Casdatro");
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("CADASTRO");
+		lblNewLabel.setForeground(new Color(0, 128, 128));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 29));
+		lblNewLabel.setBounds(132, 39, 190, 45);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Nome");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(55, 117, 45, 13);
+		contentPane.add(lblNewLabel_1);
+		
+		nomeTextField = new JTextField();
+		nomeTextField.setBounds(54, 134, 331, 19);
+		contentPane.add(nomeTextField);
+		nomeTextField.setColumns(10);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("E-mail");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1_1.setBounds(55, 176, 45, 13);
+		contentPane.add(lblNewLabel_1_1);
+		
+		emailTextField = new JTextField();
+		emailTextField.setColumns(10);
+		emailTextField.setBounds(54, 193, 331, 19);
+		contentPane.add(emailTextField);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("Data de nascimento");
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1_2.setBounds(56, 235, 149, 13);
+		contentPane.add(lblNewLabel_1_2);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(55, 252, 127, 19);
+		contentPane.add(textField_2);
+		
+		JLabel lblNewLabel_1_2_1 = new JLabel("Nome de usuário");
+		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1_2_1.setBounds(56, 370, 107, 13);
+		contentPane.add(lblNewLabel_1_2_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(55, 387, 331, 19);
+		contentPane.add(textField_3);
+		
+		JLabel lblNewLabel_1_2_2 = new JLabel("Senha");
+		lblNewLabel_1_2_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1_2_2.setBounds(56, 435, 45, 13);
+		contentPane.add(lblNewLabel_1_2_2);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(55, 452, 331, 19);
+		contentPane.add(textField_4);
+		
+		btnNewButton = new JButton("Cadastrar");
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(0, 128, 128));
+		btnNewButton.setBounds(263, 516, 122, 21);
+		contentPane.add(btnNewButton);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+                
+                LoginWindow secondFrame = new LoginWindow();
+                secondFrame.setVisible(true);
+			}
+		});
+		btnVoltar.setForeground(new Color(0, 128, 128));
+		btnVoltar.setBackground(new Color(255, 255, 255));
+		btnVoltar.setBounds(55, 516, 122, 21);
+		contentPane.add(btnVoltar);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(258, 235, 127, 103);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Masculino");
+		rdbtnNewRadioButton.setBounds(6, 6, 103, 21);
+		panel.add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Não informar");
+		rdbtnNewRadioButton_1.setBounds(6, 78, 103, 21);
+		panel.add(rdbtnNewRadioButton_1);
+		
+		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Feminino");
+		rdbtnNewRadioButton_2.setBounds(6, 40, 103, 21);
+		panel.add(rdbtnNewRadioButton_2);
+		
+		JLabel lblNewLabel_1_2_3 = new JLabel("Foto");
+		lblNewLabel_1_2_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1_2_3.setBounds(56, 302, 149, 13);
+		contentPane.add(lblNewLabel_1_2_3);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(55, 319, 127, 19);
+		contentPane.add(textField);
+	}
+}
