@@ -4,7 +4,13 @@
  */
 package gui;
 
+import entities.Usuario;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import services.UsuarioService;
 
 /**
  *
@@ -164,13 +170,33 @@ public class RegisterWindow extends javax.swing.JFrame {
             return;
         }
 
-        // chamar controler
-        // em caso de sucesso voltar para login
-        // em caso de falha mostrar mensagem na tela
+        try {
+            Usuario usuario = new Usuario();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate data = LocalDate.parse(dataNascimento, formatter);
+
+            usuario.setNome(nomeCompleto);
+            usuario.setEmail(email);
+            usuario.setDataNascimento(data);
+            usuario.setFoto("");
+            usuario.setNomeUsuario(nomeUsuario);
+            usuario.setSenha(senha);
+            usuario.setGenero(genero);
+
+            UsuarioService.cadastrarUsuario(usuario);
+
+            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso", null, JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+
+        } catch (SQLException | IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao cadastrar usuário", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         setVisible(false);
+        dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     /**

@@ -8,7 +8,8 @@ import entities.Usuario;
 
 public class UsuarioService {
 
-	public UsuarioService() { }
+    public UsuarioService() {
+    }
 
     public static Usuario buscarUsuarioPorId(int id) throws Exception {
         Connection con = BancoDados.conectar();
@@ -57,12 +58,13 @@ public class UsuarioService {
             Usuario usuario = new UsuarioDAO(con).logar(email, senha);
             if (usuario != null) {
                 return usuario;
-            } else {
-                throw new Exception("Email ou senha inválidos");
             }
+            
+            throw new Exception("Email ou senha inválidos");
+
         } finally {
             BancoDados.desconectar();
         }
     }
-	
+
 }
