@@ -49,9 +49,9 @@ public class PanelWindow extends javax.swing.JFrame {
             model.setRowCount(0);
 
             List<Agenda> agendas = AgendaService.buscarAgendasPorIdUsuario(this.usuario.getId());
-            
+
             System.out.println(agendas.size());
-            
+
             for (Agenda agenda : agendas) {
                 model.addRow(new Object[]{
                     agenda.getNome(),
@@ -321,7 +321,9 @@ public class PanelWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceitarConviteActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        LoginWindow frame = new LoginWindow();
+        frame.setVisible(true);
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnExcluirAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirAgendaActionPerformed
