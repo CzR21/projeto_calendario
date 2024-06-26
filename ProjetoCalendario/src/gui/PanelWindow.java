@@ -8,6 +8,7 @@ import entities.Agenda;
 import entities.Usuario;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import services.AgendaService;
 public class PanelWindow extends javax.swing.JFrame {
 
     private Usuario usuario;
+    private List<Agenda> agendas;
 
     /**
      * Creates new form PanelWindow
@@ -44,6 +46,12 @@ public class PanelWindow extends javax.swing.JFrame {
 
     private void excluirAgenda() {
         int row = tableAgendas.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma agenda para excluir.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja excluir?", "Excluir", JOptionPane.YES_NO_OPTION);
 
@@ -68,9 +76,9 @@ public class PanelWindow extends javax.swing.JFrame {
             model.fireTableDataChanged();
             model.setRowCount(0);
 
-            List<Agenda> agendas = AgendaService.buscarAgendasPorIdUsuario(this.usuario.getId());
+            this.agendas = AgendaService.buscarAgendasPorIdUsuario(this.usuario.getId());
 
-            for (Agenda agenda : agendas) {
+            for (Agenda agenda : this.agendas) {
                 model.addRow(new Object[]{
                     agenda.getId(),
                     agenda.getNome(),
@@ -346,12 +354,35 @@ public class PanelWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnExcluirAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirAgendaActionPerformed
-        // TODO add your handling code here:
         excluirAgenda();
     }//GEN-LAST:event_btnExcluirAgendaActionPerformed
 
     private void btnEditarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAgendaActionPerformed
-        // TODO add your handling code here:
+        int row = tableAgendas.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma agenda para editar.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
+
+        Agenda agenda = null;
+
+        for (Agenda a : this.agendas) {
+            if (a.getId() == id) {
+                agenda = a;
+                break;
+            }
+        }
+
+        if (agenda == null) {
+            return;
+        }
+
+        CriarEditarAgendaWindow frame = new CriarEditarAgendaWindow(this.usuario, agenda, this);
+
+        frame.setVisible(true);
     }//GEN-LAST:event_btnEditarAgendaActionPerformed
 
     private void btnVisualizarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarAgendaActionPerformed

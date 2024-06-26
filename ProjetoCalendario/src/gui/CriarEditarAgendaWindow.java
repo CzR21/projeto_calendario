@@ -9,12 +9,10 @@ import entities.Usuario;
 import enums.TipoStatus;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import services.AgendaService;
-import services.UsuarioService;
 
 /**
  *
@@ -35,13 +33,16 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
      * Creates new form CriarAgendaWindow
      *
      * @param usuario
-     * @param buscar
+     * @param panel
      */
     public CriarEditarAgendaWindow(Usuario usuario, PanelWindow panel) {
         initComponents();
         setLocationRelativeTo(null);
         this.usuario = usuario;
         this.panel = panel;
+
+        this.inputStatus.hide();
+        this.lblStatusAgenda.hide();
     }
 
     public CriarEditarAgendaWindow(Usuario usuario, Agenda agenda, PanelWindow panel) {
@@ -53,6 +54,10 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
 
         this.lblCriarAgenda.setText("Editar agenda");
         this.btnCadastrar.setText("Editar agenda");
+
+        this.inputNome.setText(agenda.getNome());
+        this.inputDescricao.setText(agenda.getDescricao());
+        this.inputStatus.setSelectedItem(agenda.getStatus().toString());
     }
 
     /**
@@ -72,6 +77,8 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
         inputNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         inputDescricao = new javax.swing.JTextArea();
+        lblStatusAgenda = new javax.swing.JLabel();
+        inputStatus = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,13 +106,17 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
         inputDescricao.setRows(5);
         jScrollPane1.setViewportView(inputDescricao);
 
+        lblStatusAgenda.setText("Status da agenda:");
+
+        inputStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "REMOVIDO" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(166, 166, 166)
@@ -116,16 +127,19 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblDescricao)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                            .addComponent(inputNome, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(inputStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                            .addComponent(inputNome)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(btnVoltar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCadastrar)))))
+                                .addComponent(btnCadastrar))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDescricao)
+                                    .addComponent(lblStatusAgenda))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -141,18 +155,22 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
                 .addComponent(lblDescricao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblStatusAgenda)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(inputStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCadastrar)
-                    .addComponent(btnVoltar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(btnVoltar)
+                    .addComponent(btnCadastrar))
+                .addGap(21, 21, 21))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        setVisible(false);
+        dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -166,16 +184,32 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
         }
 
         try {
-            Agenda agenda = new Agenda();
-            agenda.setNome(nomeAgenda);
-            agenda.setDescricao(descricaoAgenda);
-            agenda.setIdUsuario(this.usuario.getId());
-            agenda.setStatus(TipoStatus.ATIVO);
-            AgendaService.cadastrarAgenda(agenda);
-            JOptionPane.showMessageDialog(null, "Agenda criada com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+            if (this.agenda == null) {
+                Agenda agenda = new Agenda();
+
+                agenda.setNome(nomeAgenda);
+                agenda.setDescricao(descricaoAgenda);
+                agenda.setIdUsuario(this.usuario.getId());
+                agenda.setStatus(TipoStatus.ATIVO);
+
+                AgendaService.cadastrarAgenda(agenda);
+            } else {
+                this.agenda.setNome(nomeAgenda);
+                this.agenda.setDescricao(descricaoAgenda);
+                this.agenda.setStatus(TipoStatus.valueOf(this.inputStatus.getSelectedItem().toString()));
+
+                AgendaService.editarAgenda(agenda);
+            }
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    this.agenda != null ? "Agenda editada com sucesso!" : "Agenda criada com sucesso!",
+                    "",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
             this.panel.buscarAgendas();
             dispose();
-
         } catch (SQLException | IOException ex) {
             Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Ocorreu um erro ao cadastrar agenda.", "", JOptionPane.ERROR_MESSAGE);
@@ -227,9 +261,11 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnVoltar;
     private javax.swing.JTextArea inputDescricao;
     private javax.swing.JTextField inputNome;
+    private javax.swing.JComboBox<String> inputStatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCriarAgenda;
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JLabel lblStatusAgenda;
     // End of variables declaration//GEN-END:variables
 }
