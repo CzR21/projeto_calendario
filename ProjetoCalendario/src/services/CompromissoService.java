@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import dao.BancoDados;
 import dao.CompromissoDAO;
 import entities.Compromisso;
+import java.util.List;
 
 public class CompromissoService {
 
-	public CompromissoService() { }
+    public CompromissoService() {
+    }
 
     public static Compromisso buscarCompromissoPorId(int id) throws Exception {
         Connection con = BancoDados.conectar();
@@ -21,6 +23,15 @@ public class CompromissoService {
             } else {
                 throw new Exception("Compromisso não encontrado");
             }
+        } finally {
+            BancoDados.desconectar();
+        }
+    }
+
+    public static List<Compromisso> buscarTodos(int id) throws Exception {
+        Connection con = BancoDados.conectar();
+        try {
+            return new CompromissoDAO(con).buscarTodos(id);
         } finally {
             BancoDados.desconectar();
         }
@@ -52,5 +63,5 @@ public class CompromissoService {
             BancoDados.desconectar();
         }
     }
-	
+
 }

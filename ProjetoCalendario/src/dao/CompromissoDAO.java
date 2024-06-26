@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import entities.Compromisso;
 import enums.TipoStatus;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompromissoDAO {
-	
-	private Connection conn;
+
+    private Connection conn;
 
     public CompromissoDAO(Connection conn) {
         this.conn = conn;
@@ -64,6 +66,41 @@ public class CompromissoDAO {
             }
 
             return null;
+        } finally {
+            BancoDados.finalizarStatement(st);
+            BancoDados.finalizarResultSet(rs);
+            BancoDados.desconectar();
+        }
+    }
+
+    public List<Compromisso> buscarTodos(int id) throws SQLException {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            List<Compromisso> compromissos = new ArrayList();
+            st = conn.prepareStatement("SELECT * FROM compromisso WHERE id_usuario = ?");
+            st.setInt(1, id);
+
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                Compromisso compromisso = new Compromisso();
+
+                compromisso.setId(rs.getInt("id"));
+                compromisso.setIdAgenda(rs.getInt("id_agenda"));
+                compromisso.setTitulo(rs.getString("titulo"));
+                compromisso.setDescricao(rs.getString("descricao"));
+                compromisso.setDataInicio(rs.getString("data_inicio"));
+                compromisso.setDataFim(rs.getString("data_fim"));
+                compromisso.setLocal(rs.getString("local"));
+                compromisso.setDataNotificacao(rs.getString("data_notificacao"));
+                compromisso.setStatus(TipoStatus.valueOf(rs.getString("tp_status")));
+                compromissos.add(compromisso);
+            }
+
+            return compromissos;
+
         } finally {
             BancoDados.finalizarStatement(st);
             BancoDados.finalizarResultSet(rs);

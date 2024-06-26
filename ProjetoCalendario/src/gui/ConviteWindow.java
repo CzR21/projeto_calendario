@@ -4,15 +4,21 @@
  */
 package gui;
 
-import entities.Agenda;
+import entities.Compromisso;
+import entities.Convite;
 import entities.Usuario;
+import enums.TipoStatus;
+import enums.TipoStatusConvite;
+import java.awt.HeadlessException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import services.AgendaService;
+import services.CompromissoService;
+import services.ConviteService;
 import services.UsuarioService;
 
 /**
@@ -24,6 +30,7 @@ public class ConviteWindow extends javax.swing.JFrame {
     private Usuario usuario;
     private PanelWindow panel;
     private List<Usuario> usuarios;
+    private List<Compromisso> compromissos;
 
     /**
      * Creates new form ConviteWindow
@@ -37,6 +44,8 @@ public class ConviteWindow extends javax.swing.JFrame {
         this.usuario = usuario;
         this.panel = panel;
         buscarUsuarios();
+        buscarComprimissos();
+        panel.setVisible(false);
     }
 
     private void buscarUsuarios() {
@@ -59,6 +68,87 @@ public class ConviteWindow extends javax.swing.JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (Exception ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void buscarComprimissos() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tableCompromissos.getModel();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+
+            this.compromissos = CompromissoService.buscarTodos(this.usuario.getId());
+
+            for (Compromisso compromisso : this.compromissos) {
+                model.addRow(new Object[]{
+                    compromisso.getId(),
+                    compromisso.getTitulo()
+                });
+                model.fireTableDataChanged();
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void convidar() {
+        int rowUsuario = tableUsuarios.getSelectedRow();
+        int rowCompromisso = tableCompromissos.getSelectedRow();
+
+        if (rowUsuario == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um usuário para convidar.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        if (rowCompromisso == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um compromisso para convidar.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int idUsuario = Integer.parseInt(tableUsuarios.getModel().getValueAt(rowUsuario, 0).toString());
+        int idCompromisso = Integer.parseInt(tableUsuarios.getModel().getValueAt(rowCompromisso, 0).toString());
+
+        int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja convidar?", "Aceitar", JOptionPane.YES_NO_OPTION);
+
+        Compromisso compromisso = null;
+
+        for (Compromisso c : this.compromissos) {
+            if (c.getId() == idCompromisso) {
+                compromisso = c;
+                break;
+            }
+        }
+
+        Usuario usuario = null;
+
+        for (Usuario u : this.usuarios) {
+            if (u.getId() == idUsuario) {
+                usuario = u;
+                break;
+            }
+        }
+
+        if (confirmacao == 1 || compromisso == null || usuario == null) {
+            return;
+        }
+
+        try {
+            Convite convite = new Convite();
+            convite.setIdUsurio(usuario.getId());
+            convite.setIdCompromisso(compromisso.getId());
+            convite.setStatus(TipoStatus.ATIVO);
+            convite.setStatusConvite(TipoStatusConvite.PENDENTE);
+
+            ConviteService.cadastrarConvite(convite);
+
+            JOptionPane.showMessageDialog(null, "Convite enviado com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (HeadlessException | SQLException ex) {
             Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -154,6 +244,11 @@ public class ConviteWindow extends javax.swing.JFrame {
         });
 
         btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -210,8 +305,13 @@ public class ConviteWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConvidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConvidarActionPerformed
-        // TODO add your handling code here:
+        convidar();
     }//GEN-LAST:event_btnConvidarActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.panel.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
     /**
      * @param args the command line arguments
