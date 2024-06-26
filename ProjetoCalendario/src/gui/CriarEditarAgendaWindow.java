@@ -9,6 +9,7 @@ import entities.Usuario;
 import enums.TipoStatus;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -23,22 +24,32 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
 
     private Agenda agenda;
     private Usuario usuario;
+    private PanelWindow panel;
+
+    public CriarEditarAgendaWindow() {
+        initComponents();
+        setLocationRelativeTo(null);
+    }
 
     /**
      * Creates new form CriarAgendaWindow
      *
      * @param usuario
+     * @param buscar
      */
-    public CriarEditarAgendaWindow(Usuario usuario) {
+    public CriarEditarAgendaWindow(Usuario usuario, PanelWindow panel) {
         initComponents();
         setLocationRelativeTo(null);
         this.usuario = usuario;
+        this.panel = panel;
     }
 
-    public CriarEditarAgendaWindow(Usuario usuario, Agenda agenda) {
+    public CriarEditarAgendaWindow(Usuario usuario, Agenda agenda, PanelWindow panel) {
         initComponents();
         setLocationRelativeTo(null);
         this.agenda = agenda;
+        this.panel = panel;
+        this.usuario = usuario;
 
         this.lblCriarAgenda.setText("Editar agenda");
         this.btnCadastrar.setText("Editar agenda");
@@ -162,6 +173,7 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
             agenda.setStatus(TipoStatus.ATIVO);
             AgendaService.cadastrarAgenda(agenda);
             JOptionPane.showMessageDialog(null, "Agenda criada com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+            this.panel.buscarAgendas();
             dispose();
 
         } catch (SQLException | IOException ex) {
@@ -205,7 +217,7 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CriarEditarAgendaWindow(new Usuario()).setVisible(true);
+                new CriarEditarAgendaWindow().setVisible(true);
             }
         });
     }

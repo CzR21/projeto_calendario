@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import dao.AgendaDAO;
 import dao.BancoDados;
 import entities.Agenda;
+import java.util.List;
 
 public class AgendaService {
 
-	public AgendaService() { }
+    public AgendaService() {
+    }
 
     public static Agenda buscarAgendaPorId(int id) throws Exception {
         Connection con = BancoDados.conectar();
@@ -21,6 +23,16 @@ public class AgendaService {
             } else {
                 throw new Exception("Agenda não encontrada");
             }
+        } finally {
+            BancoDados.desconectar();
+        }
+    }
+
+    public static List<Agenda> buscarAgendasPorIdUsuario(int id) throws SQLException, Exception {
+        Connection con = BancoDados.conectar();
+        try {
+            List<Agenda> agendas = new AgendaDAO(con).buscarTodos(id);
+            return agendas;
         } finally {
             BancoDados.desconectar();
         }

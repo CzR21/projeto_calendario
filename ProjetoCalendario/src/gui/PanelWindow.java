@@ -4,7 +4,15 @@
  */
 package gui;
 
+import entities.Agenda;
 import entities.Usuario;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import services.AgendaService;
 
 /**
  *
@@ -23,6 +31,7 @@ public class PanelWindow extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.usuario = usuario;
+        buscarAgendas();
     }
 
     /**
@@ -31,6 +40,32 @@ public class PanelWindow extends javax.swing.JFrame {
     public PanelWindow() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    public void buscarAgendas() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tableAgendas.getModel();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+
+            List<Agenda> agendas = AgendaService.buscarAgendasPorIdUsuario(this.usuario.getId());
+            
+            System.out.println(agendas.size());
+            
+            for (Agenda agenda : agendas) {
+                model.addRow(new Object[]{
+                    agenda.getNome(),
+                    agenda.getDescricao(),
+                    agenda.getStatus()
+                });
+                model.fireTableDataChanged();
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -76,20 +111,20 @@ public class PanelWindow extends javax.swing.JFrame {
 
         tableAgendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Nome", "Descrição"
+                "Nome", "Descrição", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -182,7 +217,6 @@ public class PanelWindow extends javax.swing.JFrame {
         btnEditarUsuario.setText("Editar usuário");
 
         btnVisualizarAgenda.setText("Visualizar");
-        btnVisualizarAgenda.setActionCommand("Visualizar");
         btnVisualizarAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVisualizarAgendaActionPerformed(evt);
@@ -265,7 +299,7 @@ public class PanelWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarAgendaActionPerformed
-        CriarEditarAgendaWindow frame = new CriarEditarAgendaWindow(this.usuario);
+        CriarEditarAgendaWindow frame = new CriarEditarAgendaWindow(this.usuario, this);
 
         frame.setVisible(true);
     }//GEN-LAST:event_btnAdicionarAgendaActionPerformed
