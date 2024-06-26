@@ -42,6 +42,26 @@ public class PanelWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+    private void excluirAgenda() {
+        int row = tableAgendas.getSelectedRow();
+        int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
+        int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja excluir?", "Excluir", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == 1) { //Não
+            return;
+        }
+
+        try {
+            AgendaService.removerAgenda(id);
+            buscarAgendas();
+            JOptionPane.showMessageDialog(null, "Agenda excluída com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void buscarAgendas() {
         try {
             DefaultTableModel model = (DefaultTableModel) tableAgendas.getModel();
@@ -50,10 +70,9 @@ public class PanelWindow extends javax.swing.JFrame {
 
             List<Agenda> agendas = AgendaService.buscarAgendasPorIdUsuario(this.usuario.getId());
 
-            System.out.println(agendas.size());
-
             for (Agenda agenda : agendas) {
                 model.addRow(new Object[]{
+                    agenda.getId(),
                     agenda.getNome(),
                     agenda.getDescricao(),
                     agenda.getStatus()
@@ -111,20 +130,20 @@ public class PanelWindow extends javax.swing.JFrame {
 
         tableAgendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nome", "Descrição", "Status"
+                "ID", "Nome", "Descrição", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -328,6 +347,7 @@ public class PanelWindow extends javax.swing.JFrame {
 
     private void btnExcluirAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirAgendaActionPerformed
         // TODO add your handling code here:
+        excluirAgenda();
     }//GEN-LAST:event_btnExcluirAgendaActionPerformed
 
     private void btnEditarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAgendaActionPerformed
