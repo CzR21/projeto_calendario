@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import entities.Convite;
 import enums.TipoStatus;
 import enums.TipoStatusConvite;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConviteDAO {
-	
-	private Connection conn;
+
+    private Connection conn;
 
     public ConviteDAO(Connection conn) {
         this.conn = conn;
@@ -58,6 +60,38 @@ public class ConviteDAO {
             }
 
             return null;
+        } finally {
+            BancoDados.finalizarStatement(st);
+            BancoDados.finalizarResultSet(rs);
+            BancoDados.desconectar();
+        }
+    }
+
+    public List<Convite> buscarPorIdUsuario(int id) throws SQLException {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = conn.prepareStatement("SELECT * FROM convite WHERE id_usuario = ? AND tp_status_convite = 'PENDENTE'");
+            st.setInt(1, id);
+
+            rs = st.executeQuery();
+
+            List<Convite> convites = new ArrayList();
+
+            if (rs.next()) {
+                Convite convite = new Convite();
+
+                convite.setId(rs.getInt("id"));
+                convite.setIdUsurio(rs.getInt("id_usuario"));
+                convite.setIdCompromisso(rs.getInt("id_compromisso"));
+                convite.setStatusConvite(TipoStatusConvite.valueOf(rs.getString("tp_status_convite")));
+                convite.setStatus(TipoStatus.valueOf(rs.getString("tp_status")));
+
+                convites.add(convite);
+            }
+
+            return convites;
         } finally {
             BancoDados.finalizarStatement(st);
             BancoDados.finalizarResultSet(rs);

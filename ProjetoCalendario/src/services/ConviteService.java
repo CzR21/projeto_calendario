@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import dao.BancoDados;
 import dao.ConviteDAO;
 import entities.Convite;
+import java.util.List;
 
 public class ConviteService {
-	
-	public ConviteService() { }
+
+    public ConviteService() {
+    }
 
     public static Convite buscarConvitePorId(int id) throws Exception {
         Connection con = BancoDados.conectar();
@@ -21,6 +23,15 @@ public class ConviteService {
             } else {
                 throw new Exception("Convite não encontrado");
             }
+        } finally {
+            BancoDados.desconectar();
+        }
+    }
+
+    public static List<Convite> buscarConvitePorIdUsuario(int id) throws Exception {
+        Connection con = BancoDados.conectar();
+        try {
+            return new ConviteDAO(con).buscarPorIdUsuario(id);
         } finally {
             BancoDados.desconectar();
         }

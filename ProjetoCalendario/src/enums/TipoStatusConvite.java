@@ -2,7 +2,8 @@ package enums;
 
 public enum TipoStatusConvite {
 
-	ACEITO,
-	RECUSADO
-	
+    ACEITO,
+    PENDENTE,
+    RECUSADO
+
 }

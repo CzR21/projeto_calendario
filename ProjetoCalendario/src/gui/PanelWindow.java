@@ -5,24 +5,26 @@
 package gui;
 
 import entities.Agenda;
+import entities.Convite;
 import entities.Usuario;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import services.AgendaService;
+import services.ConviteService;
 
 /**
  *
  * @author rebec
  */
-public class PanelWindow extends javax.swing.JFrame {
+public final class PanelWindow extends javax.swing.JFrame {
 
     private Usuario usuario;
     private List<Agenda> agendas;
+    private List<Convite> convites;
 
     /**
      * Creates new form PanelWindow
@@ -34,6 +36,7 @@ public class PanelWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.usuario = usuario;
         buscarAgendas();
+        buscarConvites();
     }
 
     /**
@@ -46,6 +49,42 @@ public class PanelWindow extends javax.swing.JFrame {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    private void recusarConvite() {
+        int row = tableConvites.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um convite para recusar.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
+        int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja recusar o convite?", "Aceitar", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == 1) { //Não
+            return;
+        }
+
+        // implementar o recusar no banco
+    }
+
+    private void aceitarConvite() {
+        int row = tableConvites.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um convite para aceitar.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
+        int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja aceitar o convite?", "Aceitar", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == 1) { //Não
+            return;
+        }
+
+        // implementar o aceite no banco
     }
 
     private void excluirAgenda() {
@@ -88,6 +127,31 @@ public class PanelWindow extends javax.swing.JFrame {
                     agenda.getNome(),
                     agenda.getDescricao(),
                     agenda.getStatus()
+                });
+                model.fireTableDataChanged();
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void buscarConvites() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tableConvites.getModel();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+
+            this.convites = ConviteService.buscarConvitePorIdUsuario(this.usuario.getId());
+
+            for (Convite convite : this.convites) {
+                model.addRow(new Object[]{
+                    convite.getId(),
+                    "Compromisso", // aqui trocar pelo correto depois
+                    "Data",
+                    "Local"
                 });
                 model.fireTableDataChanged();
             }
@@ -198,20 +262,20 @@ public class PanelWindow extends javax.swing.JFrame {
 
         tableConvites.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Compromisso", "Data", "Local"
+                "ID", "Compromisso", "Data", "Local"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -349,11 +413,11 @@ public class PanelWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovoCompromissoActionPerformed
 
     private void btnRecusarConviteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecusarConviteActionPerformed
-        // TODO add your handling code here:
+        this.recusarConvite();
     }//GEN-LAST:event_btnRecusarConviteActionPerformed
 
     private void btnAceitarConviteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceitarConviteActionPerformed
-        // TODO add your handling code here:
+        this.aceitarConvite();
     }//GEN-LAST:event_btnAceitarConviteActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
