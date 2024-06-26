@@ -124,7 +124,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblListaConvite">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Listagem dos Convites"/>
+        <Property name="text" type="java.lang.String" value="Listagem dos Convites pendentes"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">

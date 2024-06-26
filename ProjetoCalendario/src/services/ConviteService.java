@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import dao.BancoDados;
 import dao.ConviteDAO;
 import entities.Convite;
+import enums.TipoStatusConvite;
 import java.util.List;
 
 public class ConviteService {
@@ -59,6 +60,26 @@ public class ConviteService {
         Connection con = BancoDados.conectar();
         try {
             new ConviteDAO(con).excluir(id);
+        } finally {
+            BancoDados.desconectar();
+        }
+    }
+
+    public static void aceitarConvite(Convite convite) throws SQLException, IOException {
+        Connection con = BancoDados.conectar();
+        try {
+            convite.setStatusConvite(TipoStatusConvite.ACEITO);
+            new ConviteDAO(con).atualizar(convite);
+        } finally {
+            BancoDados.desconectar();
+        }
+    }
+
+    public static void recusarConvite(Convite convite) throws SQLException, IOException {
+        Connection con = BancoDados.conectar();
+        try {
+            convite.setStatusConvite(TipoStatusConvite.RECUSADO);
+            new ConviteDAO(con).atualizar(convite);
         } finally {
             BancoDados.desconectar();
         }

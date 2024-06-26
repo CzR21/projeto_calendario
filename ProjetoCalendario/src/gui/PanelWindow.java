@@ -7,7 +7,9 @@ package gui;
 import entities.Agenda;
 import entities.Convite;
 import entities.Usuario;
+import java.awt.HeadlessException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,11 +64,28 @@ public final class PanelWindow extends javax.swing.JFrame {
         int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja recusar o convite?", "Aceitar", JOptionPane.YES_NO_OPTION);
 
-        if (confirmacao == 1) { //Não
+        Convite convite = null;
+
+        for (Convite c : this.convites) {
+            if (c.getId() == id) {
+                convite = c;
+                break;
+            }
+        }
+
+        if (confirmacao == 1 || convite == null) {
             return;
         }
 
-        // implementar o recusar no banco
+        try {
+            ConviteService.recusarConvite(convite);
+            buscarConvites();
+            JOptionPane.showMessageDialog(null, "Convite recusado com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (HeadlessException | SQLException ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void aceitarConvite() {
@@ -80,11 +99,28 @@ public final class PanelWindow extends javax.swing.JFrame {
         int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja aceitar o convite?", "Aceitar", JOptionPane.YES_NO_OPTION);
 
-        if (confirmacao == 1) { //Não
+        Convite convite = null;
+
+        for (Convite c : this.convites) {
+            if (c.getId() == id) {
+                convite = c;
+                break;
+            }
+        }
+
+        if (confirmacao == 1 || convite == null) {
             return;
         }
 
-        // implementar o aceite no banco
+        try {
+            ConviteService.aceitarConvite(convite);
+            buscarConvites();
+            JOptionPane.showMessageDialog(null, "Convite aceito com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (HeadlessException | SQLException ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void excluirAgenda() {
@@ -108,7 +144,7 @@ public final class PanelWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Agenda excluída com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
-        } catch (Exception ex) {
+        } catch (HeadlessException | SQLException ex) {
             Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -201,7 +237,7 @@ public final class PanelWindow extends javax.swing.JFrame {
 
         lblListaAgendas.setText("Listagem das Agendas");
 
-        lblListaConvite.setText("Listagem dos Convites");
+        lblListaConvite.setText("Listagem dos Convites pendentes");
 
         tableAgendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
