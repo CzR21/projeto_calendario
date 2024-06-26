@@ -59,6 +59,7 @@ public class PanelWindow extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         btnEditarUsuario = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        btnVisualizarAgenda = new javax.swing.JButton();
 
         jButton4.setText("jButton1");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -101,14 +102,14 @@ public class PanelWindow extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableAgendas);
 
-        btnEditarAgenda.setText("Editar agenda");
+        btnEditarAgenda.setText("Editar");
         btnEditarAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarAgendaActionPerformed(evt);
             }
         });
 
-        btnExcluirAgenda.setText("Excluir agenda");
+        btnExcluirAgenda.setText("Excluir");
         btnExcluirAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirAgendaActionPerformed(evt);
@@ -180,6 +181,14 @@ public class PanelWindow extends javax.swing.JFrame {
 
         btnEditarUsuario.setText("Editar usuário");
 
+        btnVisualizarAgenda.setText("Visualizar");
+        btnVisualizarAgenda.setActionCommand("Visualizar");
+        btnVisualizarAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVisualizarAgendaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,6 +206,8 @@ public class PanelWindow extends javax.swing.JFrame {
                         .addComponent(btnExcluirAgenda)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarAgenda)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnVisualizarAgenda)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAdicionarAgenda))
                     .addComponent(jScrollPane2)
@@ -229,7 +240,8 @@ public class PanelWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditarAgenda)
                     .addComponent(btnAdicionarAgenda)
-                    .addComponent(btnExcluirAgenda))
+                    .addComponent(btnExcluirAgenda)
+                    .addComponent(btnVisualizarAgenda))
                 .addGap(15, 15, 15)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -253,7 +265,7 @@ public class PanelWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarAgendaActionPerformed
-        CriarEditarAgendaWindow frame = new CriarEditarAgendaWindow();
+        CriarEditarAgendaWindow frame = new CriarEditarAgendaWindow(this.usuario);
 
         frame.setVisible(true);
     }//GEN-LAST:event_btnAdicionarAgendaActionPerformed
@@ -285,6 +297,10 @@ public class PanelWindow extends javax.swing.JFrame {
     private void btnEditarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAgendaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarAgendaActionPerformed
+
+    private void btnVisualizarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarAgendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVisualizarAgendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,6 +346,7 @@ public class PanelWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnNovoCompromisso;
     private javax.swing.JButton btnRecusarConvite;
     private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnVisualizarAgenda;
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

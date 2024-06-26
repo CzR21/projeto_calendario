@@ -144,7 +144,7 @@ public class LoginWindow extends javax.swing.JFrame {
             PanelWindow frame = new PanelWindow(usuario);
             frame.setVisible(true);
 
-            this.setVisible(false);
+            dispose();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Ocorreu um erro ao logar.", "", JOptionPane.ERROR_MESSAGE);

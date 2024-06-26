@@ -5,6 +5,15 @@
 package gui;
 
 import entities.Agenda;
+import entities.Usuario;
+import enums.TipoStatus;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import services.AgendaService;
+import services.UsuarioService;
 
 /**
  *
@@ -13,16 +22,20 @@ import entities.Agenda;
 public class CriarEditarAgendaWindow extends javax.swing.JFrame {
 
     private Agenda agenda;
+    private Usuario usuario;
 
     /**
      * Creates new form CriarAgendaWindow
+     *
+     * @param usuario
      */
-    public CriarEditarAgendaWindow() {
+    public CriarEditarAgendaWindow(Usuario usuario) {
         initComponents();
         setLocationRelativeTo(null);
+        this.usuario = usuario;
     }
 
-    public CriarEditarAgendaWindow(Agenda agenda) {
+    public CriarEditarAgendaWindow(Usuario usuario, Agenda agenda) {
         initComponents();
         setLocationRelativeTo(null);
         this.agenda = agenda;
@@ -133,6 +146,32 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         // TODO add your handling code here:
+        String nomeAgenda = this.inputNome.getText();
+        String descricaoAgenda = this.inputDescricao.getText();
+
+        if (nomeAgenda.isEmpty() || descricaoAgenda.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Preencha todos os dados obrigatórios.", "", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            Agenda agenda = new Agenda();
+            agenda.setNome(nomeAgenda);
+            agenda.setDescricao(descricaoAgenda);
+            agenda.setIdUsuario(this.usuario.getId());
+            agenda.setStatus(TipoStatus.ATIVO);
+            AgendaService.cadastrarAgenda(agenda);
+            JOptionPane.showMessageDialog(null, "Agenda criada com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao cadastrar agenda.", "", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro inesperado ao cadastrar agenda.", "", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
@@ -166,7 +205,7 @@ public class CriarEditarAgendaWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CriarEditarAgendaWindow().setVisible(true);
+                new CriarEditarAgendaWindow(new Usuario()).setVisible(true);
             }
         });
     }
