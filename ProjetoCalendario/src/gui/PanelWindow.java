@@ -149,10 +149,9 @@ public final class PanelWindow extends javax.swing.JFrame {
             for (Convite convite : this.convites) {
                 model.addRow(new Object[]{
                     convite.getId(),
-                    "Compromisso", // aqui trocar pelo correto depois
-                    "Data",
-                    "Local"
-                });
+                    convite.getCompromisso() != null ? convite.getCompromisso().getTitulo() : "N/A",
+                    convite.getCompromisso() != null ? convite.getCompromisso().getDataInicio() : "N/A",
+                    convite.getCompromisso() != null ? convite.getCompromisso().getLocal() : "N/A",});
                 model.fireTableDataChanged();
             }
 

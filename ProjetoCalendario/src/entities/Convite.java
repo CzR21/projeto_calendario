@@ -9,6 +9,7 @@ public class Convite {
 	private int idCompromisso;
 	private TipoStatusConvite statusConvite;
 	private TipoStatus status;
+        private Compromisso compromisso;
 	
 	public Convite() { }
 	
@@ -50,5 +51,13 @@ public class Convite {
 	
 	public void setStatus(TipoStatus status) {
 		this.status = status;
+	}
+        
+        public Compromisso getCompromisso() {
+		return compromisso;
+	}
+	
+	public void setCompromisso(Compromisso compromisso) {
+		this.compromisso = compromisso;
 	}
 }

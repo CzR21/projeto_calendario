@@ -8,7 +8,7 @@ public class Compromisso {
 	private int idAgenda;
 	private String titulo;
 	private String descricao;
-	private String dataIncio;
+	private String dataInicio;
 	private String dataFim;
 	private String local;
 	private String dataNotificacao;
@@ -48,12 +48,12 @@ public class Compromisso {
 		this.descricao = descricao;
 	}
 	
-	public String getDataIncio() {
-		return dataIncio;
+	public String getDataInicio() {
+		return dataInicio;
 	}
 	
-	public void setDataIncio(String dataIncio) {
-		this.dataIncio = dataIncio;
+	public void setDataInicio(String dataInicio) {
+		this.dataInicio = dataInicio;
 	}
 	
 	public String getDataFim() {

@@ -24,7 +24,7 @@ public class CompromissoDAO {
             st.setInt(1, compromisso.getIdAgenda());
             st.setString(2, compromisso.getTitulo());
             st.setString(3, compromisso.getDescricao());
-            st.setString(4, compromisso.getDataIncio());
+            st.setString(4, compromisso.getDataInicio());
             st.setString(5, compromisso.getDataFim());
             st.setString(6, compromisso.getLocal());
             st.setString(7, compromisso.getDataNotificacao());
@@ -54,7 +54,7 @@ public class CompromissoDAO {
                 compromisso.setIdAgenda(rs.getInt("id_agenda"));
                 compromisso.setTitulo(rs.getString("titulo"));
                 compromisso.setDescricao(rs.getString("descricao"));
-                compromisso.setDataIncio(rs.getString("data_inicio"));
+                compromisso.setDataInicio(rs.getString("data_inicio"));
                 compromisso.setDataFim(rs.getString("data_fim"));
                 compromisso.setLocal(rs.getString("local"));
                 compromisso.setDataNotificacao(rs.getString("data_notificacao"));
@@ -80,7 +80,7 @@ public class CompromissoDAO {
             st.setInt(1, compromisso.getIdAgenda());
             st.setString(2, compromisso.getTitulo());
             st.setString(3, compromisso.getDescricao());
-            st.setString(4, compromisso.getDataIncio());
+            st.setString(4, compromisso.getDataInicio());
             st.setString(5, compromisso.getDataFim());
             st.setString(6, compromisso.getLocal());
             st.setString(7, compromisso.getDataNotificacao());

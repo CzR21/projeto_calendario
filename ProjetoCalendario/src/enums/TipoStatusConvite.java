@@ -4,6 +4,6 @@ public enum TipoStatusConvite {
 
     ACEITO,
     PENDENTE,
-    RECUSADO
+    RECUSADO;
 
 }
