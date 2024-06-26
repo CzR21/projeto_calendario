@@ -44,6 +44,10 @@ public class PanelWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     private void excluirAgenda() {
         int row = tableAgendas.getSelectedRow();
 
@@ -242,6 +246,11 @@ public class PanelWindow extends javax.swing.JFrame {
         });
 
         btnEditarUsuario.setText("Editar usuário");
+        btnEditarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarUsuarioActionPerformed(evt);
+            }
+        });
 
         btnVisualizarAgenda.setText("Visualizar");
         btnVisualizarAgenda.addActionListener(new java.awt.event.ActionListener() {
@@ -388,6 +397,12 @@ public class PanelWindow extends javax.swing.JFrame {
     private void btnVisualizarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarAgendaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVisualizarAgendaActionPerformed
+
+    private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
+        UpdateUsuarioWindow frame = new UpdateUsuarioWindow(this.usuario, this);
+
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnEditarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments

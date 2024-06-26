@@ -87,6 +87,7 @@ public class UsuarioDAO {
                 usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
+                usuario.setNomeUsuario(rs.getString("nome_usuario"));
                 usuario.setDataNascimento(rs.getObject("data_nascimento", LocalDate.class));
                 usuario.setGenero(rs.getString("genero"));
                 usuario.setFoto(rs.getString("foto"));
@@ -108,7 +109,7 @@ public class UsuarioDAO {
         PreparedStatement st = null;
         
         try {
-            st = conn.prepareStatement("UPDATE usuario SET nome = ?, email = ?, data_nascimento = ?, genero = ?, foto = ?, senha = ?, status = ? WHERE id = ?");
+            st = conn.prepareStatement("UPDATE usuario SET nome = ?, email = ?, data_nascimento = ?, genero = ?, foto = ?, senha = ?, tp_status = ? WHERE id = ?");
             
             st.setString(1, usuario.getNome());
             st.setString(2, usuario.getEmail());
