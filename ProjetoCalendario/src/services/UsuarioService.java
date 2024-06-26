@@ -5,6 +5,7 @@ import java.sql.*;
 import dao.BancoDados;
 import dao.UsuarioDAO;
 import entities.Usuario;
+import java.util.List;
 
 public class UsuarioService {
 
@@ -20,6 +21,15 @@ public class UsuarioService {
             } else {
                 throw new Exception("Usuário não encontrado");
             }
+        } finally {
+            BancoDados.desconectar();
+        }
+    }
+
+    public static List<Usuario> buscarTodos(int id) throws SQLException, IOException {
+        Connection con = BancoDados.conectar();
+        try {
+            return new UsuarioDAO(con).buscarTodos(id);
         } finally {
             BancoDados.desconectar();
         }
@@ -59,7 +69,7 @@ public class UsuarioService {
             if (usuario != null) {
                 return usuario;
             }
-            
+
             throw new Exception("Email ou senha inválidos");
 
         } finally {

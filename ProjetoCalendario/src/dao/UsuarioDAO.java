@@ -5,21 +5,23 @@ import java.time.LocalDate;
 
 import entities.Usuario;
 import enums.TipoStatus;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAO {
 
-	private Connection conn;
+    private Connection conn;
 
     public UsuarioDAO(Connection conn) {
         this.conn = conn;
     }
-	
+
     public void cadastrar(Usuario usuario) throws SQLException {
         PreparedStatement st = null;
-        
+
         try {
             st = conn.prepareStatement("INSERT INTO usuario (nome, email, data_nascimento, genero, foto, nome_usuario, senha, tp_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            
+
             st.setString(1, usuario.getNome());
             st.setString(2, usuario.getEmail());
             st.setObject(3, usuario.getDataNascimento());
@@ -28,7 +30,7 @@ public class UsuarioDAO {
             st.setString(6, usuario.getNomeUsuario());
             st.setString(7, usuario.getSenha());
             st.setString(8, usuario.getStatus().name());
-            
+
             st.executeUpdate();
         } finally {
             BancoDados.finalizarStatement(st);
@@ -39,16 +41,16 @@ public class UsuarioDAO {
     public Usuario buscarPorId(int id) throws SQLException {
         PreparedStatement st = null;
         ResultSet rs = null;
-        
+
         try {
             st = conn.prepareStatement("SELECT * FROM usuario WHERE id = ?");
             st.setInt(1, id);
-            
+
             rs = st.executeQuery();
-            
+
             if (rs.next()) {
                 Usuario usuario = new Usuario();
-                
+
                 usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
@@ -56,11 +58,11 @@ public class UsuarioDAO {
                 usuario.setGenero(rs.getString("genero"));
                 usuario.setFoto(rs.getString("foto"));
                 usuario.setSenha(rs.getString("senha"));
-                usuario.setStatus(TipoStatus.valueOf(rs.getString("status")));
-                
+                usuario.setStatus(TipoStatus.valueOf(rs.getString("tp_status")));
+
                 return usuario;
             }
-            
+
             return null;
         } finally {
             BancoDados.finalizarStatement(st);
@@ -68,22 +70,55 @@ public class UsuarioDAO {
             BancoDados.desconectar();
         }
     }
-    
+
+    public List<Usuario> buscarTodos(int id) throws SQLException {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            List<Usuario> usuarios = new ArrayList();
+
+            st = conn.prepareStatement("SELECT * FROM usuario WHERE id != ?");
+            st.setInt(1, id);
+
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setDataNascimento(rs.getObject("data_nascimento", LocalDate.class));
+                usuario.setGenero(rs.getString("genero"));
+                usuario.setStatus(TipoStatus.valueOf(rs.getString("tp_status")));
+                usuarios.add(usuario);
+            }
+
+            return usuarios;
+
+        } finally {
+            BancoDados.finalizarStatement(st);
+            BancoDados.finalizarResultSet(rs);
+            BancoDados.desconectar();
+        }
+    }
+
     public Usuario logar(String nomeUsuario, String senha) throws SQLException {
         PreparedStatement st = null;
         ResultSet rs = null;
-        
+
         try {
             st = conn.prepareStatement("SELECT * FROM usuario WHERE nome_usuario = ? AND senha = ? AND tp_status = 'ATIVO'");
-            
+
             st.setString(1, nomeUsuario);
             st.setString(2, senha);
-            
+
             rs = st.executeQuery();
-            
+
             if (rs.next()) {
                 Usuario usuario = new Usuario();
-                
+
                 usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
@@ -93,10 +128,10 @@ public class UsuarioDAO {
                 usuario.setFoto(rs.getString("foto"));
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setStatus(TipoStatus.valueOf(rs.getString("tp_status")));
-                
+
                 return usuario;
             }
-            
+
             return null;
         } finally {
             BancoDados.finalizarStatement(st);
@@ -107,10 +142,10 @@ public class UsuarioDAO {
 
     public void atualizar(Usuario usuario) throws SQLException {
         PreparedStatement st = null;
-        
+
         try {
             st = conn.prepareStatement("UPDATE usuario SET nome = ?, email = ?, data_nascimento = ?, genero = ?, foto = ?, senha = ?, tp_status = ? WHERE id = ?");
-            
+
             st.setString(1, usuario.getNome());
             st.setString(2, usuario.getEmail());
             st.setObject(3, usuario.getDataNascimento());
@@ -119,7 +154,7 @@ public class UsuarioDAO {
             st.setString(6, usuario.getSenha());
             st.setString(7, usuario.getStatus().name());
             st.setInt(8, usuario.getId());
-            
+
             st.executeUpdate();
         } finally {
             BancoDados.finalizarStatement(st);
@@ -129,12 +164,12 @@ public class UsuarioDAO {
 
     public void excluir(int id) throws SQLException {
         PreparedStatement st = null;
-        
+
         try {
             st = conn.prepareStatement("DELETE FROM usuario WHERE id = ?");
-            
+
             st.setInt(1, id);
-            
+
             st.executeUpdate();
         } finally {
             BancoDados.finalizarStatement(st);
