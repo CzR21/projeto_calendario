@@ -280,7 +280,6 @@ public final class PanelWindow extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         btnEditarUsuario = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        btnVisualizarAgenda = new javax.swing.JButton();
         btnNovoConvite = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         lblListaConvite1 = new javax.swing.JLabel();
@@ -419,13 +418,6 @@ public final class PanelWindow extends javax.swing.JFrame {
             }
         });
 
-        btnVisualizarAgenda.setText("Visualizar");
-        btnVisualizarAgenda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVisualizarAgendaActionPerformed(evt);
-            }
-        });
-
         btnNovoConvite.setText("Novo convite");
         btnNovoConvite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -490,8 +482,6 @@ public final class PanelWindow extends javax.swing.JFrame {
                         .addComponent(btnExcluirAgenda)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarAgenda)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnVisualizarAgenda)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAdicionarAgenda))
                     .addComponent(jScrollPane2)
@@ -534,8 +524,7 @@ public final class PanelWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditarAgenda)
                     .addComponent(btnAdicionarAgenda)
-                    .addComponent(btnExcluirAgenda)
-                    .addComponent(btnVisualizarAgenda))
+                    .addComponent(btnExcluirAgenda))
                 .addGap(15, 15, 15)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -635,10 +624,6 @@ public final class PanelWindow extends javax.swing.JFrame {
 
         frame.setVisible(true);
     }//GEN-LAST:event_btnEditarAgendaActionPerformed
-
-    private void btnVisualizarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarAgendaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnVisualizarAgendaActionPerformed
 
     private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
         UpdateUsuarioWindow frame = new UpdateUsuarioWindow(this.usuario, this);
@@ -740,7 +725,6 @@ public final class PanelWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnNovoConvite;
     private javax.swing.JButton btnRecusarConvite;
     private javax.swing.JButton btnSair;
-    private javax.swing.JButton btnVisualizarAgenda;
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

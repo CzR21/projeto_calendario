@@ -110,7 +110,7 @@ public class ConviteWindow extends javax.swing.JFrame {
         }
 
         int idUsuario = Integer.parseInt(tableUsuarios.getModel().getValueAt(rowUsuario, 0).toString());
-        int idCompromisso = Integer.parseInt(tableUsuarios.getModel().getValueAt(rowCompromisso, 0).toString());
+        int idCompromisso = Integer.parseInt(tableCompromissos.getModel().getValueAt(rowCompromisso, 0).toString());
 
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja convidar?", "Aceitar", JOptionPane.YES_NO_OPTION);
 

@@ -28,76 +28,76 @@ import services.CompromissoService;
  */
 public class CompromissoWindow extends javax.swing.JFrame {
 
-        private Agenda agenda;
-        private Usuario usuario;
-        private Compromisso compromisso;
-        private PanelWindow panel;
+    private Agenda agenda;
+    private Usuario usuario;
+    private Compromisso compromisso;
+    private PanelWindow panel;
 
-        public CompromissoWindow() {
-                initComponents();
-                setLocationRelativeTo(null);
-        }
+    public CompromissoWindow() {
+        initComponents();
+        setLocationRelativeTo(null);
+    }
 
-        /**
-         * Creates new form CriarAgendaWindow
-         *
-         * @param usuario
-         * @param panel
-         */
-        public CompromissoWindow(Usuario usuario, PanelWindow panel) {
-                initComponents();
-                setLocationRelativeTo(null);
-                this.usuario = usuario;
-                this.panel = panel;
-        }
+    /**
+     * Creates new form CriarAgendaWindow
+     *
+     * @param usuario
+     * @param panel
+     */
+    public CompromissoWindow(Usuario usuario, PanelWindow panel) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.usuario = usuario;
+        this.panel = panel;
+    }
 
-        public CompromissoWindow(Usuario usuario, Agenda agenda) {
-                initComponents();
-                setLocationRelativeTo(null);
-                this.agenda = agenda;
-                this.usuario = usuario;
-                // this.inputStatus.setSelectedItem(agenda.getStatus().toString());
-        }
+    public CompromissoWindow(Usuario usuario, Agenda agenda) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.agenda = agenda;
+        this.usuario = usuario;
+        // this.inputStatus.setSelectedItem(agenda.getStatus().toString());
+    }
 
-        public CompromissoWindow(Usuario usuario, Agenda agenda, PanelWindow panel) {
-                initComponents();
-                setLocationRelativeTo(null);
-                this.agenda = agenda;
-                this.panel = panel;
-                this.usuario = usuario;
-                // this.inputStatus.setSelectedItem(agenda.getStatus().toString());
-        }
+    public CompromissoWindow(Usuario usuario, Agenda agenda, PanelWindow panel) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.agenda = agenda;
+        this.panel = panel;
+        this.usuario = usuario;
+        // this.inputStatus.setSelectedItem(agenda.getStatus().toString());
+    }
 
-        public CompromissoWindow(Usuario usuario, Agenda agenda, Compromisso compromisso, PanelWindow panel) {
-                initComponents();
-                setLocationRelativeTo(null);
-                this.agenda = agenda;
-                this.panel = panel;
-                this.usuario = usuario;
-                this.compromisso = compromisso;
+    public CompromissoWindow(Usuario usuario, Agenda agenda, Compromisso compromisso, PanelWindow panel) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.agenda = agenda;
+        this.panel = panel;
+        this.usuario = usuario;
+        this.compromisso = compromisso;
 
-                lblCriarAgenda.setText("Editar compromisso");
-                btnCadastrar.setText("Editar compromisso");
+        lblCriarAgenda.setText("Editar compromisso");
+        btnCadastrar.setText("Editar compromisso");
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-                this.inputNome5.setText(compromisso.getTitulo());
-                this.inputDescricao.setText(compromisso.getDescricao());
-                this.inputLocal.setText(compromisso.getLocal());
-                this.inputHoraInicio.setText(timeFormat.format(compromisso.getDataInicio()));
-                this.inputHoraFim.setText(timeFormat.format(compromisso.getDataFim()));
-                this.inputDataInicio.setText(dateFormat.format(compromisso.getDataInicio()));
-                this.inputDataFim.setText(dateFormat.format(compromisso.getDataFim()));
-        }
+        this.inputNome5.setText(compromisso.getTitulo());
+        this.inputDescricao.setText(compromisso.getDescricao());
+        this.inputLocal.setText(compromisso.getLocal());
+        this.inputHoraInicio.setText(timeFormat.format(compromisso.getDataInicio()));
+        this.inputHoraFim.setText(timeFormat.format(compromisso.getDataFim()));
+        this.inputDataInicio.setText(dateFormat.format(compromisso.getDataInicio()));
+        this.inputDataFim.setText(dateFormat.format(compromisso.getDataFim()));
+    }
 
-        /**
-         * This method is called from within the constructor to initialize the form.
-         * WARNING: Do NOT modify this code. The content of this method is always
-         * regenerated by the Form Editor.
-         */
-        @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
@@ -310,124 +310,126 @@ public class CompromissoWindow extends javax.swing.JFrame {
                 pack();
         }// </editor-fold>//GEN-END:initComponents
 
-        private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVoltarActionPerformed
-                dispose();
-        }// GEN-LAST:event_btnVoltarActionPerformed
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVoltarActionPerformed
+        dispose();
+    }// GEN-LAST:event_btnVoltarActionPerformed
 
-        private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCadastrarActionPerformed
-                // TODO add your handling code here:
-                String titulo = this.inputNome5.getText();
-                String descricao = this.inputDescricao.getText();
-                String local = this.inputLocal.getText();
-                String horaInicio = this.inputHoraInicio.getText();
-                String horaFim = this.inputHoraFim.getText();
-                String dataInicio = this.inputDataInicio.getText();
-                String dataFim = this.inputDataFim.getText();
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCadastrarActionPerformed
+        // TODO add your handling code here:
+        String titulo = this.inputNome5.getText();
+        String descricao = this.inputDescricao.getText();
+        String local = this.inputLocal.getText();
+        String horaInicio = this.inputHoraInicio.getText();
+        String horaFim = this.inputHoraFim.getText();
+        String dataInicio = this.inputDataInicio.getText();
+        String dataFim = this.inputDataFim.getText();
 
-                if (titulo.isEmpty() || descricao.isEmpty() || local.isEmpty() || horaInicio.isEmpty()
-                                || horaFim.isEmpty()
-                                || dataInicio.isEmpty() || dataFim.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Preencha todos os dados obrigatórios.", "",
-                                        JOptionPane.ERROR_MESSAGE);
-                        return;
-                }
+        if (titulo.isEmpty() || descricao.isEmpty() || local.isEmpty() || horaInicio.isEmpty()
+                || horaFim.isEmpty()
+                || dataInicio.isEmpty() || dataFim.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Preencha todos os dados obrigatórios.", "",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-                try {
-                        compromisso.setTitulo(inputNome5.getText());
-                        compromisso.setDescricao(inputDescricao.getText());
-                        compromisso.setDataInicio(converterDataHora(inputDataInicio.getText() + " " + inputHoraInicio.getText()));
-                        compromisso.setDataFim(converterDataHora(inputDataFim.getText() + " " + inputHoraFim.getText()));
-                        compromisso.setLocal(inputLocal.getText());
-                        if(this.compromisso == null){
-                            compromisso.setIdAgenda(agenda.getId());
-                            compromisso.setIdUsuario(usuario.getId());
-                            compromisso.setStatus(TipoStatus.ATIVO);
+        try {
+            Compromisso comp = new Compromisso();
 
-                            CompromissoService.cadastrarCompromisso(compromisso);
-                        }else{
-                            CompromissoService.editarCompromisso(compromisso);
-                        }
+            comp.setTitulo(inputNome5.getText());
+            comp.setDescricao(inputDescricao.getText());
+            comp.setDataInicio(converterDataHora(inputDataInicio.getText() + " " + inputHoraInicio.getText()));
+            comp.setDataFim(converterDataHora(inputDataFim.getText() + " " + inputHoraFim.getText()));
+            comp.setLocal(inputLocal.getText());
+            if (this.compromisso == null) {
+                comp.setIdAgenda(agenda.getId());
+                comp.setIdUsuario(usuario.getId());
+                comp.setStatus(TipoStatus.ATIVO);
 
-                        JOptionPane.showMessageDialog(null, "Compromisso " + (this.compromisso == null ? "cadastrado" : "editado") + " com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+                CompromissoService.cadastrarCompromisso(comp);
+            } else {
+                CompromissoService.editarCompromisso(comp);
+            }
 
-                        this.panel.buscarCompromissos();
-                        dispose();
-                } catch (SQLException | IOException ex) {
-                        Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null, "Ocorreu um erro ao cadastrar agenda.", "",
-                                        JOptionPane.ERROR_MESSAGE);
-                } catch (Exception ex) {
-                        Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null, "Ocorreu um erro inesperado ao cadastrar agenda.", "",
-                                        JOptionPane.ERROR_MESSAGE);
-                }
+            JOptionPane.showMessageDialog(null, "Compromisso " + (this.compromisso == null ? "cadastrado" : "editado") + " com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
 
-        }// GEN-LAST:event_btnCadastrarActionPerformed
+            this.panel.buscarCompromissos();
+            dispose();
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao cadastrar agenda.", "",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginWindow.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro inesperado ao cadastrar agenda.", "",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
-        /**
-         * @param args the command line arguments
-         */
-        public static void main(String args[]) {
-                /* Set the Nimbus look and feel */
-                // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-                // (optional) ">
-                /*
+    }// GEN-LAST:event_btnCadastrarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
                  * If Nimbus (introduced in Java SE 6) is not available, stay with the default
                  * look and feel.
                  * For details see
                  * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-                 */
-                try {
-                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
-                                        .getInstalledLookAndFeels()) {
-                                if ("Nimbus".equals(info.getName())) {
-                                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                                        break;
-                                }
-                        }
-                } catch (ClassNotFoundException ex) {
-                        java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
-                                        java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (InstantiationException ex) {
-                        java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
-                                        java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (IllegalAccessException ex) {
-                        java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
-                                        java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                        java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
-                                        java.util.logging.Level.SEVERE,
-                                        null, ex);
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+                    .getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
                 }
-                // </editor-fold>
-                // </editor-fold>
-                // </editor-fold>
-                // </editor-fold>
-
-                /* Create and display the form */
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                new CompromissoWindow().setVisible(true);
-                        }
-                });
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(CompromissoWindow.class.getName()).log(
+                    java.util.logging.Level.SEVERE,
+                    null, ex);
         }
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
 
-        private static Timestamp converterDataHora(String dataHora) {
-                try {
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new CompromissoWindow().setVisible(true);
+            }
+        });
+    }
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private static Timestamp converterDataHora(String dataHora) {
+        try {
 
-                        Date parsedDate = dateFormat.parse(dataHora);
-                        // Converte java.util.Date para java.sql.Timestamp
-                        return new Timestamp(parsedDate.getTime());
-                } catch (ParseException e) {
-                        e.printStackTrace();
-                        return null;
-                }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+            Date parsedDate = dateFormat.parse(dataHora);
+            // Converte java.util.Date para java.sql.Timestamp
+            return new Timestamp(parsedDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
         }
+    }
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JButton btnCadastrar;
@@ -450,5 +452,5 @@ public class CompromissoWindow extends javax.swing.JFrame {
         private javax.swing.JLabel lblNome5;
         // End of variables declaration//GEN-END:variables
         private MaskFormatter mascaraData;
-        private MaskFormatter mascaraHora;
+    private MaskFormatter mascaraHora;
 }
