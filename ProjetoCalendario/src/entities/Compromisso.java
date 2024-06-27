@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Date;
+
 import enums.TipoStatus;
 
 public class Compromisso {
@@ -9,11 +11,12 @@ public class Compromisso {
     private int idUsuario;
     private String titulo;
     private String descricao;
-    private String dataInicio;
-    private String dataFim;
+    private Date dataInicio;
+    private Date dataFim;
     private String local;
     private String dataNotificacao;
     private TipoStatus status;
+    private Agenda agenda;
 
     public Compromisso() {
     }
@@ -29,9 +32,17 @@ public class Compromisso {
     public int getIdAgenda() {
         return idAgenda;
     }
+    
+    public Agenda getAgenda() {
+        return agenda;
+    }
 
     public void setIdAgenda(int idAgenda) {
         this.idAgenda = idAgenda;
+    }
+    
+    public void setAgenda(Agenda agenda) {
+        this.agenda = agenda;
     }
 
     public String getTitulo() {
@@ -58,19 +69,19 @@ public class Compromisso {
         this.descricao = descricao;
     }
 
-    public String getDataInicio() {
+    public Date getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(String dataInicio) {
+    public void setDataInicio(Date dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public String getDataFim() {
+    public Date getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(String dataFim) {
+    public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
     }
 

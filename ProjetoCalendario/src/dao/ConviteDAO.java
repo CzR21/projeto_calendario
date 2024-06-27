@@ -12,6 +12,7 @@ import enums.TipoStatusConvite;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ConviteDAO {
@@ -130,7 +131,7 @@ public class ConviteDAO {
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("DELETE FROM convite WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM convite WHERE id = ?  and tp_status = 'ATIVO'");
 
             st.setInt(1, id);
 
@@ -148,8 +149,8 @@ public class ConviteDAO {
         //compromisso.setIdAgenda(rs.getInt("cp.id_agenda")); descomentar aqui quando add id_agenda na tabela
         compromisso.setTitulo(rs.getString("titulo"));
         compromisso.setDescricao(rs.getString("descricao"));
-        compromisso.setDataInicio(rs.getObject("data_inicio", LocalDateTime.class).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-        compromisso.setDataFim(rs.getObject("data_fim", LocalDateTime.class).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        compromisso.setDataInicio(rs.getObject("data_inicio", Date.class));
+                compromisso.setDataFim(rs.getObject("data_fim", Date.class));
         compromisso.setLocal(rs.getString("local"));
         compromisso.setDataNotificacao(rs.getString("data_notificacao"));
         compromisso.setStatus(TipoStatus.valueOf(rs.getString("compromisso_status")));

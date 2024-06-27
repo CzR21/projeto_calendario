@@ -5,6 +5,7 @@
 package gui;
 
 import entities.Agenda;
+import entities.Compromisso;
 import entities.Convite;
 import entities.Usuario;
 import java.awt.HeadlessException;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import services.AgendaService;
+import services.CompromissoService;
 import services.ConviteService;
 
 /**
@@ -26,7 +28,9 @@ public final class PanelWindow extends javax.swing.JFrame {
 
     private Usuario usuario;
     private List<Agenda> agendas;
+    private Agenda agendaSelecionada;
     private List<Convite> convites;
+    private List<Compromisso> compromissos;
 
     /**
      * Creates new form PanelWindow
@@ -39,6 +43,7 @@ public final class PanelWindow extends javax.swing.JFrame {
         this.usuario = usuario;
         buscarAgendas();
         buscarConvites();
+        buscarCompromissos();
     }
 
     /**
@@ -61,7 +66,7 @@ public final class PanelWindow extends javax.swing.JFrame {
             return;
         }
 
-        int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
+        int id = Integer.parseInt(tableConvites.getModel().getValueAt(row, 0).toString());
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja recusar o convite?", "Aceitar", JOptionPane.YES_NO_OPTION);
 
         Convite convite = null;
@@ -96,7 +101,7 @@ public final class PanelWindow extends javax.swing.JFrame {
             return;
         }
 
-        int id = Integer.parseInt(tableAgendas.getModel().getValueAt(row, 0).toString());
+        int id = Integer.parseInt(tableConvites.getModel().getValueAt(row, 0).toString());
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja aceitar o convite?", "Aceitar", JOptionPane.YES_NO_OPTION);
 
         Convite convite = null;
@@ -186,7 +191,7 @@ public final class PanelWindow extends javax.swing.JFrame {
                 model.addRow(new Object[]{
                     convite.getId(),
                     convite.getCompromisso() != null ? convite.getCompromisso().getTitulo() : "N/A",
-                    convite.getCompromisso() != null ? convite.getCompromisso().getDataInicio() : "N/A",
+                    convite.getCompromisso() != null ? convite.getCompromisso().getDataInicio().toString() : "N/A",
                     convite.getCompromisso() != null ? convite.getCompromisso().getLocal() : "N/A",});
                 model.fireTableDataChanged();
             }
@@ -194,6 +199,57 @@ public final class PanelWindow extends javax.swing.JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (Exception ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void buscarCompromissos() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tableCompromissos.getModel();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+
+            this.compromissos = CompromissoService.buscarTodos(this.usuario.getId());
+
+            for (Compromisso compromisso : this.compromissos) {
+                model.addRow(new Object[]{
+                    compromisso.getId(),
+                    compromisso.getAgenda() != null ? compromisso.getAgenda().getNome() : "N/A",
+                    compromisso.getTitulo(),
+                    compromisso.getDataInicio().toString(),
+                    compromisso.getLocal()});
+                model.fireTableDataChanged();
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void excluirCompromisso() {
+        int row = tableCompromissos.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um compromisso para excluir.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int id = Integer.parseInt(tableCompromissos.getModel().getValueAt(row, 0).toString());
+        int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja excluir?", "Excluir", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == 1) { //Não
+            return;
+        }
+
+        try {
+            CompromissoService.removerCompromisso(id);
+            buscarCompromissos();
+            JOptionPane.showMessageDialog(null, "Compromisso excluído com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (HeadlessException | SQLException ex) {
             Logger.getLogger(PanelWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -226,6 +282,12 @@ public final class PanelWindow extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         btnVisualizarAgenda = new javax.swing.JButton();
         btnNovoConvite = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        lblListaConvite1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableCompromissos = new javax.swing.JTable();
+        btnExcluirCompromisso = new javax.swing.JButton();
+        btnEditarCompromisso = new javax.swing.JButton();
 
         jButton4.setText("jButton1");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -264,6 +326,11 @@ public final class PanelWindow extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableAgendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableAgendasMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tableAgendas);
@@ -366,6 +433,50 @@ public final class PanelWindow extends javax.swing.JFrame {
             }
         });
 
+        lblListaConvite1.setText("Listagem dos Compromissos");
+
+        tableCompromissos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Agenda", "Titulo", "Data", "Local"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tableCompromissos);
+
+        btnExcluirCompromisso.setText("Excluir");
+        btnExcluirCompromisso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirCompromissoActionPerformed(evt);
+            }
+        });
+
+        btnEditarCompromisso.setText("Editar");
+        btnEditarCompromisso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarCompromissoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -374,10 +485,6 @@ public final class PanelWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblListaAgendas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNovoCompromisso))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnExcluirAgenda)
@@ -398,10 +505,21 @@ public final class PanelWindow extends javax.swing.JFrame {
                         .addComponent(btnSair)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEditarUsuario))
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblListaConvite1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNovoCompromisso))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblListaAgendas)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblListaConvite))
+                            .addComponent(lblListaConvite)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnExcluirCompromisso)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEditarCompromisso)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -409,9 +527,7 @@ public final class PanelWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblListaAgendas)
-                    .addComponent(btnNovoCompromisso))
+                .addComponent(lblListaAgendas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -431,7 +547,19 @@ public final class PanelWindow extends javax.swing.JFrame {
                     .addComponent(btnRecusarConvite)
                     .addComponent(btnAceitarConvite)
                     .addComponent(btnNovoConvite))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblListaConvite1)
+                    .addComponent(btnNovoCompromisso))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditarCompromisso)
+                    .addComponent(btnExcluirCompromisso))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -454,7 +582,12 @@ public final class PanelWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnNovoCompromissoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoCompromissoActionPerformed
-        // TODO add your handling code here:
+        if(agendaSelecionada != null){
+            CompromissoWindow frame = new CompromissoWindow(usuario, agendaSelecionada, this);
+            frame.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma agenda", "", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnNovoCompromissoActionPerformed
 
     private void btnRecusarConviteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecusarConviteActionPerformed
@@ -520,6 +653,46 @@ public final class PanelWindow extends javax.swing.JFrame {
         frame.setVisible(true);
     }//GEN-LAST:event_btnNovoConviteActionPerformed
 
+    private void tableAgendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAgendasMouseClicked
+        int row = tableAgendas.getSelectedRow();
+        
+        if (row != -1) {
+            agendaSelecionada = agendas.get(row);
+        }
+    }//GEN-LAST:event_tableAgendasMouseClicked
+
+    private void btnExcluirCompromissoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCompromissoActionPerformed
+        excluirCompromisso();
+    }//GEN-LAST:event_btnExcluirCompromissoActionPerformed
+
+    private void btnEditarCompromissoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCompromissoActionPerformed
+        int row = tableCompromissos.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um compromisso para editar.", "", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        int id = Integer.parseInt(tableCompromissos.getModel().getValueAt(row, 0).toString());
+
+        Compromisso compromisso = null;
+
+        for (Compromisso c : this.compromissos) {
+            if (c.getId() == id) {
+                compromisso = c;
+                break;
+            }
+        }
+
+        if (compromisso == null) {
+            return;
+        }
+
+        CompromissoWindow frame = new CompromissoWindow(this.usuario, compromisso.getAgenda(), compromisso,this);
+
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnEditarCompromissoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -559,8 +732,10 @@ public final class PanelWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnAceitarConvite;
     private javax.swing.JButton btnAdicionarAgenda;
     private javax.swing.JButton btnEditarAgenda;
+    private javax.swing.JButton btnEditarCompromisso;
     private javax.swing.JButton btnEditarUsuario;
     private javax.swing.JButton btnExcluirAgenda;
+    private javax.swing.JButton btnExcluirCompromisso;
     private javax.swing.JButton btnNovoCompromisso;
     private javax.swing.JButton btnNovoConvite;
     private javax.swing.JButton btnRecusarConvite;
@@ -569,11 +744,15 @@ public final class PanelWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblListaAgendas;
     private javax.swing.JLabel lblListaConvite;
+    private javax.swing.JLabel lblListaConvite1;
     private javax.swing.JTable tableAgendas;
+    private javax.swing.JTable tableCompromissos;
     private javax.swing.JTable tableConvites;
     // End of variables declaration//GEN-END:variables
 }

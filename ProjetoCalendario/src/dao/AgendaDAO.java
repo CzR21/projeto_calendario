@@ -41,7 +41,7 @@ public class AgendaDAO {
         ResultSet rs = null;
 
         try {
-            st = conn.prepareStatement("SELECT * FROM agenda WHERE id = ?");
+            st = conn.prepareStatement("SELECT * FROM agenda WHERE id = ?  and tp_status = 'ATIVO'");
             st.setInt(1, id);
 
             rs = st.executeQuery();
@@ -105,7 +105,7 @@ public class AgendaDAO {
         ResultSet rs = null;
 
         try {
-            st = conn.prepareStatement("SELECT * FROM agenda WHERE id_usuario = ?");
+            st = conn.prepareStatement("SELECT * FROM agenda WHERE id_usuario = ?  and tp_status = 'ATIVO'");
             st.setInt(1, idUsuario);
             rs = st.executeQuery();
             List<Agenda> agendas = new ArrayList();

@@ -76,6 +76,8 @@
                               <Component id="btnExcluirCompromisso" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnEditarCompromisso" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnVisualizarCompromisso" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -124,6 +126,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnEditarCompromisso" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnExcluirCompromisso" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnVisualizarCompromisso" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="16" max="32767" attributes="0"/>
               <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
@@ -311,6 +314,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarCompromissoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnVisualizarCompromisso">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Visualizar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVisualizarCompromissoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
